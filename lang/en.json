@@ -1,0 +1,10 @@
+{
+  "PARTYVIEW.Title": "Party Summary",
+  "PARTYVIEW.Empty": "No player characters found.",
+  "PARTYVIEW.Level": "Lv",
+  "PARTYVIEW.AC": "AC",
+  "PARTYVIEW.HP": "HP"
+  ,
+  "PARTYVIEW.Classes": "Classes",
+  "PARTYVIEW.PP": "PP"
+}

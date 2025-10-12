@@ -1,0 +1,115 @@
+<section class="party-summary">
+  {{#if canViewSummary}}
+  <nav class="party-tabs">
+    <button class="tab-btn active" data-tab="players">Player Characters</button>
+    {{#if isGM}}<button class="tab-btn" data-tab="npcs">NPCs</button>{{/if}}
+  </nav>
+  <div class="tab-content" data-tab="players" style="display:block;">
+    {{#if actors.length}}
+    <ul class="party-grid">
+      {{#each actors}}
+      <li class="party-card" data-actor-id="{{this.id}}" draggable="true" data-drag-source="partyview-pc">
+        <div class="portrait-wrap">
+          <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
+          {{#if this.coins}}
+          <div class="coins-row">
+            <span class="coin coin-pp" title="Platinum"></span><span class="coin-val">{{this.coins.ppDisp}}</span>
+            <span class="coin coin-gp" title="Gold"></span><span class="coin-val">{{this.coins.gpDisp}}</span>
+            <span class="coin coin-sp" title="Silver"></span><span class="coin-val">{{this.coins.spDisp}}</span>
+            <span class="coin coin-cp" title="Copper"></span><span class="coin-val">{{this.coins.cpDisp}}</span>
+          </div>
+          {{/if}}
+        </div>
+        <div class="info">
+          <header class="name">{{this.name}}</header>
+          <div class="meta">
+            {{#if this.hp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-heart" style="color:#e66;"></i>
+              {{/if}}{{localize 'PARTYVIEW.HP'}}: {{{this.hp}}}</span>{{/if}}
+            {{#if this.ac}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-shield-halved"
+                style="color:#6ae;"></i> {{/if}}{{localize 'PARTYVIEW.AC'}}: {{this.ac}}</span>{{/if}}
+            {{#if this.level}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-star" style="color:#fc3;"></i>
+              {{/if}}{{localize 'PARTYVIEW.Level'}}: {{this.level}}</span>{{/if}}
+            {{#if this.pp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-eye" style="color:#7f7;"></i>
+              {{/if}}{{localize 'PARTYVIEW.PP'}}: {{this.pp}}</span>{{/if}}
+            {{#if this.classes}}<span class="tag">{{localize 'PARTYVIEW.Classes'}}: {{this.classes}}</span>{{/if}}
+            {{#if this.legendaryActions}}<span class="tag" title="Legendary Actions">{{#if ../showIcons}}<i
+                class="fa-solid fa-dragon" style="color:#c6f;"></i> {{/if}}LA: {{this.legendaryActions}}</span>{{/if}}
+            {{#if this.legendaryResist}}
+            <span class="tag" title="Legendary Resistances">{{#if ../showIcons}}<i class="fa-solid fa-shield"
+                style="color:#c6f;"></i> {{/if}}LR: {{this.legendaryResist.value}}{{#if
+              this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
+            {{/if}}
+            {{#if this.hasRegen}}<span class="tag" title="Regeneration">{{#if ../showIcons}}<i class="fa-solid fa-plus"
+                style="color:#7f7;"></i> {{/if}}Regen</span>{{/if}}
+          </div>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p class="empty">{{localize 'PARTYVIEW.Empty'}}</p>
+    {{/if}}
+  </div>
+  <div class="tab-content npc-drop-zone" data-tab="npcs" style="display:none; min-height:200px; position:relative;">
+    <div class="npc-header"
+      style="display:flex; align-items:center; justify-content: space-between; margin-bottom:8px;">
+      <h3 style="margin:0; font-size:14px;">NPCs</h3>
+      <div class="drag-hint" style="font-size:12px; color:var(--color-text-light-6); font-style:italic;">
+        Drag NPC sheets here to add them
+      </div>
+    </div>
+
+    {{#if npcs.length}}
+    <ul class="party-grid">
+      {{#each npcs}}
+      <li class="party-card npc-card" data-actor-id="{{this.id}}" style="position:relative;">
+        <button type="button" class="remove-npc-btn" title="Remove NPC" aria-label="Remove NPC">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="portrait-wrap">
+          <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
+        </div>
+        <div class="info">
+          <header class="name">{{this.name}}</header>
+          <div class="meta">
+            {{#if this.hp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-heart" style="color:#e66;"></i>
+              {{/if}}{{localize 'PARTYVIEW.HP'}}: {{{this.hp}}}</span>{{/if}}
+            {{#if this.ac}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-shield-halved"
+                style="color:#6ae;"></i> {{/if}}{{localize 'PARTYVIEW.AC'}}: {{this.ac}}</span>{{/if}}
+            {{#if this.legendaryActions}}<span class="tag" title="Legendary Actions">{{#if ../showIcons}}<i
+                class="fa-solid fa-dragon" style="color:#c6f;"></i> {{/if}}LA: {{this.legendaryActions}}</span>{{/if}}
+            {{#if this.legendaryResist}}
+            <span class="tag" title="Legendary Resistances">{{#if ../showIcons}}<i class="fa-solid fa-shield"
+                style="color:#c6f;"></i> {{/if}}LR: {{this.legendaryResist.value}}{{#if
+              this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
+            {{/if}}
+            {{#if this.hasRegen}}<span class="tag" title="Regeneration">{{#if ../showIcons}}<i class="fa-solid fa-plus"
+                style="color:#7f7;"></i> {{/if}}Regen</span>{{/if}}
+          </div>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <div class="empty-drop-zone"
+      style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:150px; border:2px dashed var(--color-border-light-2); border-radius:8px; background:var(--color-bg-option);">
+      <i class="fa-solid fa-users" style="font-size:32px; color:var(--color-text-light-6); margin-bottom:8px;"></i>
+      <p style="margin:0; color:var(--color-text-light-6); text-align:center;">
+        Drag NPC actor sheets here<br>
+        <small>from the Actors directory</small>
+      </p>
+    </div>
+    {{/if}}
+  </div>
+  {{else}}
+  <div style="text-align:center; padding:40px 20px;">
+    <p style="margin:0; font-size:16px; color:var(--color-text-light-6);">
+      <i class="fa-solid fa-lock" style="margin-right:8px;"></i>
+      GM Only
+    </p>
+    <p style="margin:8px 0 0; font-size:14px; color:var(--color-text-light-7);">
+      Only the Game Master can view the Party Summary.
+    </p>
+  </div>
+  {{/if}}
+</section>

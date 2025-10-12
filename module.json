@@ -1,0 +1,34 @@
+{
+  "id": "partyview",
+  "title": "Party View",
+  "description": "Adds a Party Summary button to the Actors directory to show a concise overview of player characters and selected NPCs.",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Francesco Gallo",
+      "url": "https://github.com/GalloFrancesco04"
+    }
+  ],
+  "compatibility": {
+    "minimum": 13,
+    "verified": 13
+  },
+  "esmodules": [
+    "scripts/partyview.js"
+  ],
+  "styles": [
+    "styles/partyview.css"
+  ],
+  "languages": [
+    { "lang": "en", "name": "English", "path": "lang/en.json" }
+  ],
+  "url": "https://github.com/GalloFrancesco04/partyview",
+  "readme": "https://raw.githubusercontent.com/GalloFrancesco04/partyview/main/README.md",
+  "license": "LICENSE",
+  "bugs": "https://github.com/GalloFrancesco04/partyview/issues",
+  "manifest": "https://raw.githubusercontent.com/GalloFrancesco04/partyview/main/module.json",
+  "download": "https://github.com/GalloFrancesco04/partyview/releases/latest/download/partyview.zip",
+  "flags": {
+    "partyview": {}
+  }
+}

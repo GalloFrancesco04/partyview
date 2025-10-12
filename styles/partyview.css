@@ -1,0 +1,185 @@
+/* Temp HP indicators */
+.pv-hp-bonus {
+  color: #4ec3fa;
+  font-weight: 600;
+}
+/* Party Summary root */
+.party-summary {
+  padding: 8px 10px;
+}
+
+/* Drag & drop */
+.npc-drop-zone.drag-over {
+  background-color: var(--color-bg-option);
+  border: 2px dashed var(--color-border-highlight-alt);
+  border-radius: 8px;
+}
+
+.npc-drop-zone.drag-over .empty-drop-zone {
+  border-color: var(--color-border-highlight-alt);
+  background-color: var(--color-bg-alt);
+}
+
+.npc-drop-zone {
+  min-height: 200px;
+}
+
+/* Generic button hover */
+.remove-npc-btn:hover {
+  background: var(--color-bg-alt) !important;
+  color: var(--color-text);
+}
+
+/* Round remove button */
+.npc-card .remove-npc-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text-light-6);
+  cursor: pointer;
+  z-index: 10;
+  box-sizing: border-box;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 0 !important; /* neutralize baseline effects */
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  box-shadow: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.npc-card .remove-npc-btn i {
+  display: block;
+  font-size: 9px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.npc-card .remove-npc-btn:hover {
+  background: var(--color-bg-alt);
+  border-color: var(--color-border-highlight-alt);
+  color: var(--color-text);
+}
+
+/* Tabs header */
+.party-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 10px; /* pull up slightly to sit near title */
+  border-bottom: 1px solid var(--color-border-dark, #444);
+}
+.party-tabs .tab-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-bg-alt, #1f1f1f);
+  color: inherit;
+  border: 1px solid var(--color-border-dark, #444);
+  border-bottom: none;
+  padding: 4px 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  cursor: pointer;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.party-tabs .tab-btn.active {
+  background: var(--color-bg, #2a2a2a);
+  box-shadow: 0 2px 0 0 var(--color-bg, #2a2a2a);
+}
+.coins-row { display: grid; grid-template-columns: repeat(4, auto); grid-auto-rows: min-content; column-gap: 2px; row-gap: 4px; align-items: center; width: 100%; justify-content: start; }
+.coin { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0; }
+.coin-pp { background: #cfd8dc; }
+.coin-gp { background: #ffd54f; }
+.coin-sp { background: #b0bec5; }
+.coin-cp { background: #bc8a5f; }
+.coin-val { font-size: 11px; opacity: 0.9; }
+
+/* Tab content wrapper */
+.tab-content { padding-top: 6px; }
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: stretch;
+}
+.party-card {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 8px;
+  align-items: center;
+  background: var(--color-bg-alt, #1f1f1f);
+  border: 1px solid var(--color-border-dark, #444);
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  min-height: 168px;
+  height: 168px;
+  box-sizing: border-box;
+}
+
+.portrait-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+.party-card .portrait {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--color-border-dark, #444);
+}
+.party-card .info .name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.party-card .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  font-size: 12px;
+}
+.party-card .meta .tag {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--color-bg, #2a2a2a);
+  border: 1px solid var(--color-border-dark, #444);
+}
+
+/* Actors directory header button */
+.party-summary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 6px;
+  margin-left: 6px;
+  padding: 6px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--color-bg-alt, #23232a);
+  border: 1.5px solid var(--color-border-dark, #444);
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.party-summary-btn:hover {
+  background: var(--color-bg, #282838);
+  box-shadow: 0 0 0 2px #e66;
+}
+.party-summary-btn i { margin-right: 4px; }
