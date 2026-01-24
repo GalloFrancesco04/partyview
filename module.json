@@ -1,7 +1,7 @@
 {
   "id": "partyview",
   "title": "Party View",
-  "description": "Adds a Party Summary button to the Actors directory to show a concise overview of player characters and selected NPCs.",
+  "description": "Adds a Party Summary button to the Actors directory to show an overview of player characters and selected NPCs.",
   "version": "1.0.0",
   "authors": [
     {
