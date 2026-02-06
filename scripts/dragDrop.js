@@ -74,6 +74,31 @@ export function setupGlobalDnD(app) {
   });
 }
 
+export function setupPartyCardDrag(partySummary) {
+  partySummary.addEventListener("dragstart", (ev) => {
+    const li = ev.target?.closest?.(".party-card[draggable][data-actor-id]");
+    if (!li) return;
+    const actorId = li.dataset.actorId;
+    const actor = game.actors?.get(actorId);
+    if (!actor) return;
+    const payload = { type: "Actor", id: actor.id, uuid: actor.uuid };
+    try {
+      ev.dataTransfer?.setData("text/plain", JSON.stringify(payload));
+      ev.dataTransfer?.setData("text/uri-list", actor.uuid);
+      try {
+        ev.dataTransfer.effectAllowed = "copy";
+      } catch {}
+      pvDebug("dragstart: set payload for actor", {
+        id: actor.id,
+        uuid: actor.uuid,
+        type: actor.type,
+      });
+    } catch (e) {
+      pvWarn("dragstart: failed to set dataTransfer payload", e);
+    }
+  });
+}
+
 function handleDrop(ev, app) {
   try {
     const dt = ev.dataTransfer;

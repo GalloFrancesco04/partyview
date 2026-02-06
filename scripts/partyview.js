@@ -5,7 +5,11 @@ import {
   registerNpcSelectionSettings,
 } from "./npcSelection.js";
 import { buildPartySummaryContext } from "./viewModel.js";
-import { setupGlobalDnD, setupNpcDragDrop } from "./dragDrop.js";
+import {
+  setupGlobalDnD,
+  setupNpcDragDrop,
+  setupPartyCardDrag,
+} from "./dragDrop.js";
 import { registerUiHooks } from "./uiHooks.js";
 import { registerModuleSettings } from "./settings.js";
 import { registerRefreshHooks } from "./refreshHooks.js";
@@ -72,28 +76,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
     }
 
     // Enable dragging from our own PC cards so users can drag from the Players tab to the NPC tab
-    partySummary.addEventListener("dragstart", (ev) => {
-      const li = ev.target?.closest?.(".party-card[draggable][data-actor-id]");
-      if (!li) return;
-      const actorId = li.dataset.actorId;
-      const actor = game.actors?.get(actorId);
-      if (!actor) return;
-      const payload = { type: "Actor", id: actor.id, uuid: actor.uuid };
-      try {
-        ev.dataTransfer?.setData("text/plain", JSON.stringify(payload));
-        ev.dataTransfer?.setData("text/uri-list", actor.uuid);
-        try {
-          ev.dataTransfer.effectAllowed = "copy";
-        } catch {}
-        pvDebug("dragstart: set payload for actor", {
-          id: actor.id,
-          uuid: actor.uuid,
-          type: actor.type,
-        });
-      } catch (e) {
-        pvWarn("dragstart: failed to set dataTransfer payload", e);
-      }
-    });
+    setupPartyCardDrag(partySummary);
 
     // Use mousedown for remove button to block click propagation before card click
     partySummary.addEventListener("mousedown", (ev) => {
