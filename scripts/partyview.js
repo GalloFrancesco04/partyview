@@ -1,13 +1,13 @@
-import { pvLog, pvDebug, pvWarn } from "./utils.js";
-import { registerNpcSelectionSettings } from "./npcSelection.js";
-import { buildPartySummaryContext } from "./viewModel.js";
-import { setupNpcDragDrop, setupPartyCardDrag } from "./dragDrop.js";
-import { registerUiHooks } from "./uiHooks.js";
-import { registerModuleSettings } from "./settings.js";
-import { registerRefreshHooks } from "./refreshHooks.js";
-import { setupPartyTabs } from "./tabs.js";
-import { setupCardInteractions } from "./cardInteractions.js";
-import { addNpcToSelection, removeNpcFromSelection } from "./npcActions.js";
+import { pvLog, pvDebug, pvWarn } from "./core/utils.js";
+import { registerNpcSelectionSettings } from "./npc/npcSelection.js";
+import { buildPartySummaryContext } from "./app/viewModel.js";
+import { setupNpcDragDrop, setupPartyCardDrag } from "./dragdrop/dragDrop.js";
+import { registerUiHooks } from "./hooks/uiHooks.js";
+import { registerModuleSettings } from "./settings/settings.js";
+import { registerRefreshHooks } from "./hooks/refreshHooks.js";
+import { setupPartyTabs } from "./interactions/tabs.js";
+import { setupCardInteractions } from "./interactions/cardInteractions.js";
+import { addNpcToSelection, removeNpcFromSelection } from "./npc/npcActions.js";
 
 pvDebug("Script evaluated");
 

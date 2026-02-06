@@ -1,5 +1,5 @@
-import { pvDebug, pvWarn, pvError } from "./utils.js";
-import { setupGlobalDnD, setupNpcDragDrop } from "./dragDrop.js";
+import { pvDebug, pvWarn, pvError } from "../core/utils.js";
+import { setupGlobalDnD, setupNpcDragDrop } from "../dragdrop/dragDrop.js";
 
 export function registerUiHooks(PartySummaryApp) {
   Hooks.on("renderPartySummaryApp", (app, html) => {

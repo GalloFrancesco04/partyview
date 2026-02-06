@@ -1,4 +1,4 @@
-import { pvDebug } from "./utils.js";
+import { pvDebug } from "../core/utils.js";
 
 export function setupCardInteractions(partySummary, app) {
   // Use mousedown for remove button to block click propagation before card click

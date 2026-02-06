@@ -1,5 +1,5 @@
-import { pvDebug } from "./utils.js";
-import { getNpcSelection } from "./npcSelection.js";
+import { pvDebug } from "../core/utils.js";
+import { getNpcSelection } from "../npc/npcSelection.js";
 
 function refreshOpenPartySummaryApps(PartySummaryApp) {
   Object.values(ui.windows).forEach((app) => {

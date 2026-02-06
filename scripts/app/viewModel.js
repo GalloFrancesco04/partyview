@@ -1,5 +1,5 @@
-import { getProp, formatAbbrev, pvDebug } from "./utils.js";
-import { getNpcSelection } from "./npcSelection.js";
+import { getProp, formatAbbrev, pvDebug } from "../core/utils.js";
+import { getNpcSelection } from "../npc/npcSelection.js";
 
 export function buildPartySummaryContext({ activeTab } = {}) {
   const debugEnabled = game.settings?.get("partyview", "debugLogging");

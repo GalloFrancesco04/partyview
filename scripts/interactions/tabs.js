@@ -1,4 +1,4 @@
-import { pvDebug } from "./utils.js";
+import { pvDebug } from "../core/utils.js";
 
 export function setupPartyTabs(partySummary, app) {
   const tabs = partySummary.querySelectorAll(".party-tabs .tab-btn");

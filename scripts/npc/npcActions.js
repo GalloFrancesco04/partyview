@@ -1,4 +1,4 @@
-import { pvDebug } from "./utils.js";
+import { pvDebug } from "../core/utils.js";
 import { getNpcSelection, setNpcSelection } from "./npcSelection.js";
 
 export async function addNpcToSelection(app, actorId) {

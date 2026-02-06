@@ -1,4 +1,4 @@
-import { pvDebug } from "./utils.js";
+import { pvDebug } from "../core/utils.js";
 
 export function registerNpcSelectionSettings() {
   game.settings.register("partyview", "npcSelection", {

@@ -1,4 +1,4 @@
-import { pvDebug, pvWarn } from "./utils.js";
+import { pvDebug, pvWarn } from "../core/utils.js";
 
 export function setupNpcDragDrop(app, npcTab) {
   pvDebug("Setting up drag and drop for NPC tab");
