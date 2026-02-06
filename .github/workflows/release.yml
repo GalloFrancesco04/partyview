@@ -1,0 +1,27 @@
+name: Release PartyView
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build release zip
+        run: |
+          zip -r partyview.zip \
+            module.json README.md LICENSE \
+            scripts styles templates lang
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: partyview.zip
