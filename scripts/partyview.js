@@ -8,6 +8,7 @@ import { buildPartySummaryContext } from "./viewModel.js";
 import { setupGlobalDnD, setupNpcDragDrop } from "./dragDrop.js";
 import { registerUiHooks } from "./uiHooks.js";
 import { registerModuleSettings } from "./settings.js";
+import { registerRefreshHooks } from "./refreshHooks.js";
 
 pvDebug("Script evaluated");
 
@@ -159,6 +160,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
 }
 
 registerUiHooks(PartySummaryApp);
+registerRefreshHooks(PartySummaryApp);
 
 Hooks.once("init", () => {
   pvLog("Initializing", {
@@ -179,55 +181,5 @@ Hooks.once("ready", () => {
     world: game.world?.id,
     moduleActive: !!mod?.active,
     moduleVersion: mod?.version,
-  });
-});
-
-// Refresh Party Summary when tokens are updated in the scene
-Hooks.on("updateToken", (tokenDoc, updateData, options, userId) => {
-  // Only refresh if the token's actor is an NPC in our selection
-  const npcIds = getNpcSelection();
-  if (tokenDoc.actor && npcIds.includes(tokenDoc.actor.id)) {
-    pvDebug("updateToken: refreshing Party Summary for NPC update", {
-      tokenId: tokenDoc.id,
-      actorId: tokenDoc.actor.id,
-      actorName: tokenDoc.actor.name,
-    });
-
-    // Find and refresh any open Party Summary windows
-    Object.values(ui.windows).forEach((app) => {
-      if (app instanceof PartySummaryApp) {
-        app.render(false); // Use false to avoid repositioning the window
-      }
-    });
-  }
-});
-
-// Refresh when actors are updated (fallback for non-token updates)
-Hooks.on("updateActor", (actorDoc, updateData, options, userId) => {
-  const npcIds = getNpcSelection();
-  if (actorDoc.type === "npc" && npcIds.includes(actorDoc.id)) {
-    pvDebug("updateActor: refreshing Party Summary for NPC update", {
-      actorId: actorDoc.id,
-      actorName: actorDoc.name,
-    });
-
-    // Find and refresh any open Party Summary windows
-    Object.values(ui.windows).forEach((app) => {
-      if (app instanceof PartySummaryApp) {
-        app.render(false);
-      }
-    });
-  }
-});
-
-// Refresh when scene changes (to pick up different tokens)
-Hooks.on("canvasReady", () => {
-  pvDebug("canvasReady: refreshing Party Summary for scene change");
-
-  // Find and refresh any open Party Summary windows
-  Object.values(ui.windows).forEach((app) => {
-    if (app instanceof PartySummaryApp) {
-      app.render(false);
-    }
   });
 });
