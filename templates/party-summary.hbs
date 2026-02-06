@@ -32,15 +32,15 @@
             {{#if this.pp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-eye icon-pp"></i>
               {{/if}}{{localize 'PARTYVIEW.PP'}}: {{this.pp}}</span>{{/if}}
             {{#if this.classes}}<span class="tag">{{localize 'PARTYVIEW.Classes'}}: {{this.classes}}</span>{{/if}}
-            {{#if this.legendaryActions}}<span class="tag" title="Legendary Actions">{{#if ../showIcons}}<i
-                class="fa-solid fa-dragon icon-legendary"></i> {{/if}}LA: {{this.legendaryActions}}</span>{{/if}}
+            {{#if this.legendaryActions}}<span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">{{#if ../showIcons}}<i
+              class="fa-solid fa-dragon icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LA'}}: {{this.legendaryActions}}</span>{{/if}}
             {{#if this.legendaryResist}}
-            <span class="tag" title="Legendary Resistances">{{#if ../showIcons}}<i class="fa-solid fa-shield"
-                class="icon-legendary"></i> {{/if}}LR: {{this.legendaryResist.value}}{{#if
+            <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">{{#if ../showIcons}}<i class="fa-solid fa-shield"
+              class="icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LR'}}: {{this.legendaryResist.value}}{{#if
               this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
             {{/if}}
-            {{#if this.hasRegen}}<span class="tag" title="Regeneration">{{#if ../showIcons}}<i class="fa-solid fa-plus"
-                class="icon-regen"></i> {{/if}}Regen</span>{{/if}}
+            {{#if this.hasRegen}}<span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">{{#if ../showIcons}}<i class="fa-solid fa-plus"
+              class="icon-regen"></i> {{/if}}{{localize 'PARTYVIEW.Regen'}}</span>{{/if}}
           </div>
         </div>
       </li>
@@ -75,15 +75,15 @@
               {{/if}}{{localize 'PARTYVIEW.HP'}}: {{{this.hp}}}</span>{{/if}}
             {{#if this.ac}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-shield-halved"
                 class="icon-ac"></i> {{/if}}{{localize 'PARTYVIEW.AC'}}: {{this.ac}}</span>{{/if}}
-            {{#if this.legendaryActions}}<span class="tag" title="Legendary Actions">{{#if ../showIcons}}<i
-                class="fa-solid fa-dragon icon-legendary"></i> {{/if}}LA: {{this.legendaryActions}}</span>{{/if}}
+            {{#if this.legendaryActions}}<span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">{{#if ../showIcons}}<i
+              class="fa-solid fa-dragon icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LA'}}: {{this.legendaryActions}}</span>{{/if}}
             {{#if this.legendaryResist}}
-            <span class="tag" title="Legendary Resistances">{{#if ../showIcons}}<i class="fa-solid fa-shield"
-                class="icon-legendary"></i> {{/if}}LR: {{this.legendaryResist.value}}{{#if
+            <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">{{#if ../showIcons}}<i class="fa-solid fa-shield"
+              class="icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LR'}}: {{this.legendaryResist.value}}{{#if
               this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
             {{/if}}
-            {{#if this.hasRegen}}<span class="tag" title="Regeneration">{{#if ../showIcons}}<i class="fa-solid fa-plus"
-                class="icon-regen"></i> {{/if}}Regen</span>{{/if}}
+            {{#if this.hasRegen}}<span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">{{#if ../showIcons}}<i class="fa-solid fa-plus"
+              class="icon-regen"></i> {{/if}}{{localize 'PARTYVIEW.Regen'}}</span>{{/if}}
           </div>
         </div>
       </li>

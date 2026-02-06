@@ -11,5 +11,11 @@
   "PARTYVIEW.DragNpcEmpty": "Drag NPC actor sheets here",
   "PARTYVIEW.DragNpcEmptySub": "from the Actors directory",
   "PARTYVIEW.GMOnly": "GM Only",
-  "PARTYVIEW.GMOnlyDesc": "Only the Game Master can view the Party Summary."
+  "PARTYVIEW.GMOnlyDesc": "Only the Game Master can view the Party Summary.",
+  "PARTYVIEW.LegendaryActions": "Legendary Actions",
+  "PARTYVIEW.LegendaryResistances": "Legendary Resistances",
+  "PARTYVIEW.Regeneration": "Regeneration",
+  "PARTYVIEW.LA": "LA",
+  "PARTYVIEW.LR": "LR",
+  "PARTYVIEW.Regen": "Regen"
 }
