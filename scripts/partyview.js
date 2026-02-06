@@ -1,33 +1,14 @@
 // Party View for Foundry VTT v13
 // Adds a Party Summary button in the Actors directory
 
-// Logging helpers
-const PV_TAG = "PartyView";
-function pvLog(...args) {
-  try {
-    console.log(PV_TAG, "|", ...args);
-  } catch {}
-}
-// Debug logs (toggle via setting partyview.debugLogging)
-function pvDebug(...args) {
-  try {
-    const enabled = globalThis.game?.settings?.get?.(
-      "partyview",
-      "debugLogging"
-    );
-    if (enabled) console.log(PV_TAG, "|", ...args);
-  } catch {}
-}
-function pvWarn(...args) {
-  try {
-    console.warn(PV_TAG, "|", ...args);
-  } catch {}
-}
-function pvError(...args) {
-  try {
-    console.error(PV_TAG, "|", ...args);
-  } catch {}
-}
+import {
+  pvLog,
+  pvDebug,
+  pvWarn,
+  pvError,
+  getProp,
+  formatAbbrev,
+} from "./utils.js";
 
 pvDebug("Script evaluated");
 
@@ -60,7 +41,7 @@ Hooks.once("init", () => {
 });
 
 class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(...args) {
     super(...args);
@@ -86,7 +67,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
       game.actors?.filter((a) =>
         isDnd5e
           ? a.hasPlayerOwner && a.type === "character"
-          : a.hasPlayerOwner && a.type !== "npc"
+          : a.hasPlayerOwner && a.type !== "npc",
       ) ?? [];
     debug("_prepareContext: PCs found", { count: pcs.length });
 
@@ -141,7 +122,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         } else {
           const lrFeat = a.items?.find?.(
             (it) =>
-              it.type === "feat" && /legendary resistance/i.test(it.name || "")
+              it.type === "feat" && /legendary resistance/i.test(it.name || ""),
           );
           const fVal = getProp(lrFeat, "system.uses.value");
           const fMax = getProp(lrFeat, "system.uses.max");
@@ -157,7 +138,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         }
         // Detect Regeneration (best-effort): scan items for a feature/feat named *Regeneration*
         const hasRegen = !!a.items?.some?.((it) =>
-          /regeneration|regenerate/i.test(it?.name || "")
+          /regeneration|regenerate/i.test(it?.name || ""),
         );
         let classes = [];
         const classItems = a.items?.filter?.((it) => it.type === "class") ?? [];
@@ -257,7 +238,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
       .map((id) => {
         // Check active scene first
         const sceneToken = game.scenes?.active?.tokens?.find(
-          (t) => t.actor?.id === id
+          (t) => t.actor?.id === id,
         );
         if (sceneToken?.actor) {
           debug("_prepareContext: Using scene token for NPC", {
@@ -425,7 +406,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         pvDebug("DnD: dragenter on npcTab", { target: ev.target?.className });
         npcTab.classList.add("drag-over");
       },
-      true
+      true,
     );
 
     npcTab.addEventListener(
@@ -438,7 +419,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         } catch {}
         npcTab.classList.add("drag-over");
       },
-      true
+      true,
     );
 
     npcTab.addEventListener(
@@ -447,7 +428,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         pvDebug("DnD: dragleave on npcTab");
         npcTab.classList.remove("drag-over");
       },
-      true
+      true,
     );
 
     npcTab.addEventListener("drop", (ev) => {
@@ -487,7 +468,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
               return true;
             }
             ui.notifications?.warn(
-              "Only NPC actors can be added to the NPC tab."
+              "Only NPC actors can be added to the NPC tab.",
             );
             return false;
           }
@@ -516,7 +497,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
 
         // Case 2: UUID string in plain or uri-list
         const uuidStr = [plain, uris].find((s) =>
-          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? "")
+          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? ""),
         );
         if (uuidStr) {
           pvDebug("UUID-like string dropped", uuidStr);
@@ -529,7 +510,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
         // Unknown payload
         pvWarn("Unrecognized drop payload", { types, plain, uris });
         ui.notifications?.warn(
-          "Unable to read drop data. Please drag from the Actors directory or a UUID link."
+          "Unable to read drop data. Please drag from the Actors directory or a UUID link.",
         );
       } catch (err) {
         pvWarn("Failed to parse drop data", err);
@@ -589,7 +570,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
               return true;
             }
             ui.notifications?.warn(
-              "Only NPC actors can be added to the NPC tab."
+              "Only NPC actors can be added to the NPC tab.",
             );
             return false;
           }
@@ -614,7 +595,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
           }
         }
         const uuidStr = [plain, uris].find((s) =>
-          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? "")
+          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? ""),
         );
         if (uuidStr) {
           pvDebug("Global: UUID-like string dropped", uuidStr);
@@ -683,7 +664,7 @@ Hooks.on("renderPartySummaryApp", (app, html) => {
         "dragstart",
         (ev) => {
           const li = ev.target?.closest?.(
-            ".party-card[draggable][data-actor-id]"
+            ".party-card[draggable][data-actor-id]",
           );
           if (!li) return;
           const actorId = li.dataset.actorId;
@@ -705,7 +686,7 @@ Hooks.on("renderPartySummaryApp", (app, html) => {
             pvWarn("dragstart(render hook): failed to set payload", e);
           }
         },
-        { capture: true }
+        { capture: true },
       );
     } catch (e) {
       pvWarn("render hook: error wiring DnD", e);
@@ -716,7 +697,7 @@ Hooks.on("renderPartySummaryApp", (app, html) => {
       const tabs = partySummary.querySelectorAll(".party-tabs .tab-btn");
       const contents = partySummary.querySelectorAll(".tab-content");
       tabs.forEach((b) =>
-        b.classList.toggle("active", b.dataset.tab === desired)
+        b.classList.toggle("active", b.dataset.tab === desired),
       );
       contents.forEach((c) => {
         c.style.display = c.dataset.tab === desired ? "block" : "none";
@@ -781,24 +762,6 @@ Hooks.on("renderPartySummaryApp", (app, html) => {
   }
 });
 
-/** Utility safe getter */
-function getProp(obj, path) {
-  try {
-    return path.split(".").reduce((o, k) => o?.[k], obj);
-  } catch (e) {
-    return undefined;
-  }
-}
-
-/** Abbreviate large numbers for compact UI. */
-function formatAbbrev(n) {
-  const val = Number(n ?? 0);
-  if (val < 1000) return String(val);
-  const useDecimal = val < 10000;
-  const str = (val / 1000).toFixed(useDecimal ? 1 : 0);
-  return `${str.replace(/\.0$/, "")}k`;
-}
-
 /** Inject the Party Summary button into the Actors directory header */
 Hooks.on("renderActorDirectory", (app, html) => {
   try {
@@ -806,8 +769,8 @@ Hooks.on("renderActorDirectory", (app, html) => {
       html instanceof HTMLElement
         ? html
         : html?.[0] instanceof HTMLElement
-        ? html[0]
-        : null;
+          ? html[0]
+          : null;
     if (!root) return;
     if (root.querySelector(".party-summary-btn")) {
       pvDebug("renderActorDirectory: Party Summary button already present");
@@ -816,7 +779,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
 
     const container =
       root.querySelector(
-        ".directory-header, header.directory-header, .header-actions"
+        ".directory-header, header.directory-header, .header-actions",
       ) ?? root;
 
     const btn = document.createElement("button");
@@ -828,7 +791,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
     btn.addEventListener("click", () => new PartySummaryApp().render(true));
 
     const actions = container.querySelector(
-      "a.header-control, .header-actions"
+      "a.header-control, .header-actions",
     );
     if (actions && actions.parentElement)
       actions.parentElement.insertBefore(btn, actions);
@@ -951,14 +914,14 @@ async function setNpcSelection(ids) {
     await game.settings?.set(
       "partyview",
       "npcSelection",
-      JSON.stringify(unique)
+      JSON.stringify(unique),
     );
   } else {
     pvDebug("setNpcSelection: saving to client", { count: unique.length });
     await game.settings?.set(
       "partyview",
       "npcSelectionClient",
-      JSON.stringify(unique)
+      JSON.stringify(unique),
     );
   }
   pvDebug("setNpcSelection: done", {
@@ -969,7 +932,7 @@ async function setNpcSelection(ids) {
 
 function openNpcSelector(appInstance) {
   const allNpcs = (game.actors?.filter?.((a) => a.type === "npc") ?? []).sort(
-    (a, b) => a.name.localeCompare(b.name)
+    (a, b) => a.name.localeCompare(b.name),
   );
   const selected = new Set(getNpcSelection());
   pvDebug("openNpcSelector: opening", {
@@ -1014,7 +977,7 @@ function openNpcSelector(appInstance) {
           "";
         if (actionName === "ok") {
           const ids = Array.from(
-            contentRoot.querySelectorAll('input[type="checkbox"]:checked')
+            contentRoot.querySelectorAll('input[type="checkbox"]:checked'),
           ).map((i) => i.value);
           pvDebug("DialogV2 submit", { action: actionName, count: ids.length });
           await setNpcSelection(ids);
@@ -1038,7 +1001,7 @@ function openNpcSelector(appInstance) {
           label: "Save",
           callback: async (html) => {
             const ids = Array.from(
-              html[0].querySelectorAll('input[type="checkbox"]:checked')
+              html[0].querySelectorAll('input[type="checkbox"]:checked'),
             ).map((i) => i.value);
             pvDebug("Dialog (legacy) ok", { count: ids.length });
             await setNpcSelection(ids);
