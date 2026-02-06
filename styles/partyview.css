@@ -53,7 +53,7 @@
   box-sizing: border-box;
   padding: 0 !important;
   margin: 0 !important;
-  line-height: 0 !important; /* neutralize baseline effects */
+  line-height: 0 !important;
   appearance: none;
   -webkit-appearance: none;
   outline: none;
@@ -79,7 +79,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: -4px 0 10px; /* pull up slightly to sit near title */
+  margin: -4px 0 10px; 
   border-bottom: 1px solid var(--color-border-dark, #444);
 }
 .party-tabs .tab-btn {
