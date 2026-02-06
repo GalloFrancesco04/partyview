@@ -1,113 +1,201 @@
 <section class="party-summary">
   {{#if canViewSummary}}
-  <nav class="party-tabs">
-    <button class="tab-btn active" data-tab="players">Player Characters</button>
-    {{#if isGM}}<button class="tab-btn" data-tab="npcs">NPCs</button>{{/if}}
-  </nav>
-  <div class="tab-content is-active" data-tab="players">
-    {{#if actors.length}}
-    <ul class="party-grid">
-      {{#each actors}}
-      <li class="party-card" data-actor-id="{{this.id}}" draggable="true" data-drag-source="partyview-pc">
-        <div class="portrait-wrap">
-          <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
-          {{#if this.coins}}
-          <div class="coins-row">
-            <span class="coin coin-pp" title="Platinum"></span><span class="coin-val">{{this.coins.ppDisp}}</span>
-            <span class="coin coin-gp" title="Gold"></span><span class="coin-val">{{this.coins.gpDisp}}</span>
-            <span class="coin coin-sp" title="Silver"></span><span class="coin-val">{{this.coins.spDisp}}</span>
-            <span class="coin coin-cp" title="Copper"></span><span class="coin-val">{{this.coins.cpDisp}}</span>
-          </div>
-          {{/if}}
-        </div>
-        <div class="info">
-          <header class="name">{{this.name}}</header>
-          <div class="meta">
-            {{#if this.hp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-heart icon-hp"></i>
-              {{/if}}{{localize 'PARTYVIEW.HP'}}: {{{this.hp}}}</span>{{/if}}
-            {{#if this.ac}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-shield-halved"
-                class="icon-ac"></i> {{/if}}{{localize 'PARTYVIEW.AC'}}: {{this.ac}}</span>{{/if}}
-            {{#if this.level}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-star icon-level"></i>
-              {{/if}}{{localize 'PARTYVIEW.Level'}}: {{this.level}}</span>{{/if}}
-            {{#if this.pp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-eye icon-pp"></i>
-              {{/if}}{{localize 'PARTYVIEW.PP'}}: {{this.pp}}</span>{{/if}}
-            {{#if this.classes}}<span class="tag">{{localize 'PARTYVIEW.Classes'}}: {{this.classes}}</span>{{/if}}
-            {{#if this.legendaryActions}}<span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">{{#if ../showIcons}}<i
-              class="fa-solid fa-dragon icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LA'}}: {{this.legendaryActions}}</span>{{/if}}
-            {{#if this.legendaryResist}}
-            <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">{{#if ../showIcons}}<i class="fa-solid fa-shield"
-              class="icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LR'}}: {{this.legendaryResist.value}}{{#if
-              this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
-            {{/if}}
-            {{#if this.hasRegen}}<span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">{{#if ../showIcons}}<i class="fa-solid fa-plus"
-              class="icon-regen"></i> {{/if}}{{localize 'PARTYVIEW.Regen'}}</span>{{/if}}
-          </div>
-        </div>
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p class="empty">{{localize 'PARTYVIEW.Empty'}}</p>
-    {{/if}}
-  </div>
-  <div class="tab-content npc-drop-zone" data-tab="npcs">
-    <div class="npc-header">
-      <h3 class="npc-title">{{localize 'PARTYVIEW.NPCs'}}</h3>
-      <div class="drag-hint">
-        {{localize 'PARTYVIEW.DragNpcHint'}}
-      </div>
+    <nav class="party-tabs">
+      <button class="tab-btn active" data-tab="players">Player Characters</button>
+      {{#if isGM}}
+        <button class="tab-btn" data-tab="npcs">NPCs</button>
+      {{/if}}
+    </nav>
+
+    <div class="tab-content is-active" data-tab="players">
+      {{#if actors.length}}
+        <ul class="party-grid">
+          {{#each actors}}
+            <li class="party-card" data-actor-id="{{this.id}}" draggable="true" data-drag-source="partyview-pc">
+              <div class="portrait-wrap">
+                <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
+                {{#if this.coins}}
+                  <div class="coins-row">
+                    <span class="coin coin-pp" title="Platinum"></span>
+                    <span class="coin-val">{{this.coins.ppDisp}}</span>
+                    <span class="coin coin-gp" title="Gold"></span>
+                    <span class="coin-val">{{this.coins.gpDisp}}</span>
+                    <span class="coin coin-sp" title="Silver"></span>
+                    <span class="coin-val">{{this.coins.spDisp}}</span>
+                    <span class="coin coin-cp" title="Copper"></span>
+                    <span class="coin-val">{{this.coins.cpDisp}}</span>
+                  </div>
+                {{/if}}
+              </div>
+
+              <div class="info">
+                <header class="name">{{this.name}}</header>
+                <div class="meta">
+                  {{#if this.hp}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-heart icon-hp"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.HP"}}: {{{this.hp}}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.ac}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-shield-halved icon-ac"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.AC"}}: {{this.ac}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.level}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-star icon-level"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.Level"}}: {{this.level}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.pp}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-eye icon-pp"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.PP"}}: {{this.pp}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.classes}}
+                    <span class="tag">{{localize "PARTYVIEW.Classes"}}: {{this.classes}}</span>
+                  {{/if}}
+
+                  {{#if this.legendaryActions}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-dragon icon-legendary"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.LA"}}: {{this.legendaryActions}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.legendaryResist}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-shield icon-legendary"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.LR"}}: {{this.legendaryResist.value}}{{#if this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.hasRegen}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-plus icon-regen"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.Regen"}}
+                    </span>
+                  {{/if}}
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="empty">{{localize "PARTYVIEW.Empty"}}</p>
+      {{/if}}
     </div>
 
-    {{#if npcs.length}}
-    <ul class="party-grid">
-      {{#each npcs}}
-      <li class="party-card npc-card" data-actor-id="{{this.id}}">
-        <button type="button" class="remove-npc-btn" title="Remove NPC" aria-label="Remove NPC">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <div class="portrait-wrap">
-          <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
+    <div class="tab-content npc-drop-zone" data-tab="npcs">
+      <div class="npc-header">
+        <h3 class="npc-title">{{localize "PARTYVIEW.NPCs"}}</h3>
+        <div class="drag-hint">
+          {{localize "PARTYVIEW.DragNpcHint"}}
         </div>
-        <div class="info">
-          <header class="name">{{this.name}}</header>
-          <div class="meta">
-            {{#if this.hp}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-heart icon-hp"></i>
-              {{/if}}{{localize 'PARTYVIEW.HP'}}: {{{this.hp}}}</span>{{/if}}
-            {{#if this.ac}}<span class="tag">{{#if ../showIcons}}<i class="fa-solid fa-shield-halved"
-                class="icon-ac"></i> {{/if}}{{localize 'PARTYVIEW.AC'}}: {{this.ac}}</span>{{/if}}
-            {{#if this.legendaryActions}}<span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">{{#if ../showIcons}}<i
-              class="fa-solid fa-dragon icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LA'}}: {{this.legendaryActions}}</span>{{/if}}
-            {{#if this.legendaryResist}}
-            <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">{{#if ../showIcons}}<i class="fa-solid fa-shield"
-              class="icon-legendary"></i> {{/if}}{{localize 'PARTYVIEW.LR'}}: {{this.legendaryResist.value}}{{#if
-              this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}</span>
-            {{/if}}
-            {{#if this.hasRegen}}<span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">{{#if ../showIcons}}<i class="fa-solid fa-plus"
-              class="icon-regen"></i> {{/if}}{{localize 'PARTYVIEW.Regen'}}</span>{{/if}}
-          </div>
+      </div>
+
+      {{#if npcs.length}}
+        <ul class="party-grid">
+          {{#each npcs}}
+            <li class="party-card npc-card" data-actor-id="{{this.id}}">
+              <button type="button" class="remove-npc-btn" title="Remove NPC" aria-label="Remove NPC">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <div class="portrait-wrap">
+                <img class="portrait" src="{{this.img}}" alt="{{this.name}}" />
+              </div>
+              <div class="info">
+                <header class="name">{{this.name}}</header>
+                <div class="meta">
+                  {{#if this.hp}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-heart icon-hp"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.HP"}}: {{{this.hp}}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.ac}}
+                    <span class="tag">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-shield-halved icon-ac"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.AC"}}: {{this.ac}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.legendaryActions}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-dragon icon-legendary"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.LA"}}: {{this.legendaryActions}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.legendaryResist}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-shield icon-legendary"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.LR"}}: {{this.legendaryResist.value}}{{#if this.legendaryResist.max}}/{{this.legendaryResist.max}}{{/if}}
+                    </span>
+                  {{/if}}
+
+                  {{#if this.hasRegen}}
+                    <span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">
+                      {{#if ../showIcons}}
+                        <i class="fa-solid fa-plus icon-regen"></i>
+                      {{/if}}
+                      {{localize "PARTYVIEW.Regen"}}
+                    </span>
+                  {{/if}}
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <div class="empty-drop-zone">
+          <i class="fa-solid fa-users"></i>
+          <p>
+            {{localize "PARTYVIEW.DragNpcEmpty"}}<br>
+            <small>{{localize "PARTYVIEW.DragNpcEmptySub"}}</small>
+          </p>
         </div>
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <div class="empty-drop-zone">
-      <i class="fa-solid fa-users"></i>
-      <p>
-        {{localize 'PARTYVIEW.DragNpcEmpty'}}<br>
-        <small>{{localize 'PARTYVIEW.DragNpcEmptySub'}}</small>
+      {{/if}}
+    </div>
+  {{else}}
+    <div class="gm-only">
+      <p class="gm-only-title">
+        <i class="fa-solid fa-lock"></i>
+        {{localize "PARTYVIEW.GMOnly"}}
+      </p>
+      <p class="gm-only-sub">
+        {{localize "PARTYVIEW.GMOnlyDesc"}}
       </p>
     </div>
-    {{/if}}
-  </div>
-  {{else}}
-  <div class="gm-only">
-    <p class="gm-only-title">
-      <i class="fa-solid fa-lock"></i>
-      {{localize 'PARTYVIEW.GMOnly'}}
-    </p>
-    <p class="gm-only-sub">
-      {{localize 'PARTYVIEW.GMOnlyDesc'}}
-    </p>
-  </div>
   {{/if}}
 </section>
