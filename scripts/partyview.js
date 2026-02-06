@@ -14,6 +14,7 @@ import { registerUiHooks } from "./uiHooks.js";
 import { registerModuleSettings } from "./settings.js";
 import { registerRefreshHooks } from "./refreshHooks.js";
 import { setupPartyTabs } from "./tabs.js";
+import { setupCardInteractions } from "./cardInteractions.js";
 
 pvDebug("Script evaluated");
 
@@ -66,49 +67,7 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
 
     // Enable dragging from our own PC cards so users can drag from the Players tab to the NPC tab
     setupPartyCardDrag(partySummary);
-
-    // Use mousedown for remove button to block click propagation before card click
-    partySummary.addEventListener("mousedown", (ev) => {
-      if (ev.button !== 0) return; // Only left click
-      if (ev.target.closest(".remove-npc-btn")) {
-        ev.stopImmediatePropagation();
-        ev.preventDefault();
-        // Suppress any subsequent click on the card caused by this interaction
-        this._suppressCardClick = true;
-        const card = ev.target.closest(".party-card");
-        if (!card) return;
-        const id = card.dataset.actorId;
-        this._removeNpc(id);
-        // Clear suppression shortly after
-        setTimeout(() => (this._suppressCardClick = false), 300);
-      }
-    });
-
-    partySummary.addEventListener("click", (ev) => {
-      // Ignore any clicks that originate from buttons inside the card (like remove)
-      if (ev.target.closest(".remove-npc-btn, button")) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        return;
-      }
-      // If a remove just happened, suppress opening the sheet
-      if (this._suppressCardClick) {
-        pvDebug("Suppressed card click after remove");
-        ev.preventDefault();
-        ev.stopPropagation();
-        return;
-      }
-      const card = ev.target.closest(".party-card");
-      if (!card) return;
-      const id = card.dataset.actorId;
-      const actor = game.actors?.get(id);
-      pvDebug("Card clicked (direct)", {
-        id,
-        hasActor: !!actor,
-        hasSheet: !!actor?.sheet,
-      });
-      if (actor?.sheet) actor.sheet.render(true);
-    });
+    setupCardInteractions(partySummary, this);
   }
 
   async _addNpc(actorId) {
