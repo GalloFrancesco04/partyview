@@ -4,7 +4,7 @@
     <button class="tab-btn active" data-tab="players">Player Characters</button>
     {{#if isGM}}<button class="tab-btn" data-tab="npcs">NPCs</button>{{/if}}
   </nav>
-  <div class="tab-content" data-tab="players" style="display:block;">
+  <div class="tab-content is-active" data-tab="players">
     {{#if actors.length}}
     <ul class="party-grid">
       {{#each actors}}
@@ -50,12 +50,11 @@
     <p class="empty">{{localize 'PARTYVIEW.Empty'}}</p>
     {{/if}}
   </div>
-  <div class="tab-content npc-drop-zone" data-tab="npcs" style="display:none; min-height:200px; position:relative;">
-    <div class="npc-header"
-      style="display:flex; align-items:center; justify-content: space-between; margin-bottom:8px;">
-      <h3 style="margin:0; font-size:14px;">NPCs</h3>
-      <div class="drag-hint" style="font-size:12px; color:var(--color-text-light-6); font-style:italic;">
-        Drag NPC sheets here to add them
+  <div class="tab-content npc-drop-zone" data-tab="npcs">
+    <div class="npc-header">
+      <h3 class="npc-title">{{localize 'PARTYVIEW.NPCs'}}</h3>
+      <div class="drag-hint">
+        {{localize 'PARTYVIEW.DragNpcHint'}}
       </div>
     </div>
 
@@ -91,24 +90,23 @@
       {{/each}}
     </ul>
     {{else}}
-    <div class="empty-drop-zone"
-      style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:150px; border:2px dashed var(--color-border-light-2); border-radius:8px; background:var(--color-bg-option);">
-      <i class="fa-solid fa-users" style="font-size:32px; color:var(--color-text-light-6); margin-bottom:8px;"></i>
-      <p style="margin:0; color:var(--color-text-light-6); text-align:center;">
-        Drag NPC actor sheets here<br>
-        <small>from the Actors directory</small>
+    <div class="empty-drop-zone">
+      <i class="fa-solid fa-users"></i>
+      <p>
+        {{localize 'PARTYVIEW.DragNpcEmpty'}}<br>
+        <small>{{localize 'PARTYVIEW.DragNpcEmptySub'}}</small>
       </p>
     </div>
     {{/if}}
   </div>
   {{else}}
-  <div style="text-align:center; padding:40px 20px;">
-    <p style="margin:0; font-size:16px; color:var(--color-text-light-6);">
-      <i class="fa-solid fa-lock" style="margin-right:8px;"></i>
-      GM Only
+  <div class="gm-only">
+    <p class="gm-only-title">
+      <i class="fa-solid fa-lock"></i>
+      {{localize 'PARTYVIEW.GMOnly'}}
     </p>
-    <p style="margin:8px 0 0; font-size:14px; color:var(--color-text-light-7);">
-      Only the Game Master can view the Party Summary.
+    <p class="gm-only-sub">
+      {{localize 'PARTYVIEW.GMOnlyDesc'}}
     </p>
   </div>
   {{/if}}

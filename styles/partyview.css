@@ -24,6 +24,69 @@
   min-height: 200px;
 }
 
+/* Active tab content  */
+.tab-content.is-active {
+  display: block;
+}
+
+/* NPC header + hint */
+.npc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.npc-title {
+  margin: 0;
+  font-size: 14px;
+}
+.drag-hint {
+  font-size: 12px;
+  color: var(--color-text-light-6);
+  font-style: italic;
+}
+
+/* Empty NPC drop zone */
+.empty-drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  border: 2px dashed var(--color-border-light-2);
+  border-radius: 8px;
+  background: var(--color-bg-option);
+  text-align: center;
+  color: var(--color-text-light-6);
+}
+.empty-drop-zone i {
+  font-size: 32px;
+  color: var(--color-text-light-6);
+  margin-bottom: 8px;
+}
+.empty-drop-zone p {
+  margin: 0;
+}
+
+/* GM-only message */
+.gm-only {
+  text-align: center;
+  padding: 40px 20px;
+}
+.gm-only-title {
+  margin: 0;
+  font-size: 16px;
+  color: var(--color-text-light-6);
+}
+.gm-only-title i {
+  margin-right: 8px;
+}
+.gm-only-sub {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--color-text-light-7);
+}
+
 /* Generic button hover */
 .remove-npc-btn:hover {
   background: var(--color-bg-alt) !important;
@@ -58,7 +121,10 @@
   -webkit-appearance: none;
   outline: none;
   box-shadow: none;
-  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
 }
 
 .npc-card .remove-npc-btn i {
@@ -79,7 +145,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: -4px 0 10px; 
+  margin: -4px 0 10px;
   border-bottom: 1px solid var(--color-border-dark, #444);
 }
 .party-tabs .tab-btn {
@@ -101,16 +167,44 @@
   background: var(--color-bg, #2a2a2a);
   box-shadow: 0 2px 0 0 var(--color-bg, #2a2a2a);
 }
-.coins-row { display: grid; grid-template-columns: repeat(4, auto); grid-auto-rows: min-content; column-gap: 2px; row-gap: 4px; align-items: center; width: 100%; justify-content: start; }
-.coin { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0; }
-.coin-pp { background: #cfd8dc; }
-.coin-gp { background: #ffd54f; }
-.coin-sp { background: #b0bec5; }
-.coin-cp { background: #bc8a5f; }
-.coin-val { font-size: 11px; opacity: 0.9; }
+.coins-row {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-auto-rows: min-content;
+  column-gap: 2px;
+  row-gap: 4px;
+  align-items: center;
+  width: 100%;
+  justify-content: start;
+}
+.coin {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0;
+}
+.coin-pp {
+  background: #cfd8dc;
+}
+.coin-gp {
+  background: #ffd54f;
+}
+.coin-sp {
+  background: #b0bec5;
+}
+.coin-cp {
+  background: #bc8a5f;
+}
+.coin-val {
+  font-size: 11px;
+  opacity: 0.9;
+}
 
 /* Tab content wrapper */
-.tab-content { padding-top: 6px; }
+.tab-content {
+  padding-top: 6px;
+}
 .party-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -130,13 +224,20 @@
   border-radius: 6px;
   padding: 6px;
   cursor: pointer;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
   min-height: 168px;
   height: 168px;
   box-sizing: border-box;
 }
 
-.portrait-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.portrait-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
 
 .party-card .portrait {
   width: 56px;
@@ -176,10 +277,14 @@
   border: 1.5px solid var(--color-border-dark, #444);
   color: inherit;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
 }
 .party-summary-btn:hover {
   background: var(--color-bg, #282838);
   box-shadow: 0 0 0 2px #e66;
 }
-.party-summary-btn i { margin-right: 4px; }
+.party-summary-btn i {
+  margin-right: 4px;
+}

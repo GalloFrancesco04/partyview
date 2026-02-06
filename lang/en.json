@@ -3,8 +3,13 @@
   "PARTYVIEW.Empty": "No player characters found.",
   "PARTYVIEW.Level": "Lv",
   "PARTYVIEW.AC": "AC",
-  "PARTYVIEW.HP": "HP"
-  ,
+  "PARTYVIEW.HP": "HP",
   "PARTYVIEW.Classes": "Classes",
-  "PARTYVIEW.PP": "PP"
+  "PARTYVIEW.PP": "PP",
+  "PARTYVIEW.NPCs": "NPCs",
+  "PARTYVIEW.DragNpcHint": "Drag NPC sheets here to add them",
+  "PARTYVIEW.DragNpcEmpty": "Drag NPC actor sheets here",
+  "PARTYVIEW.DragNpcEmptySub": "from the Actors directory",
+  "PARTYVIEW.GMOnly": "GM Only",
+  "PARTYVIEW.GMOnlyDesc": "Only the Game Master can view the Party Summary."
 }
