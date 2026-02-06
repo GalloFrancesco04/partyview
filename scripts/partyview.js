@@ -1,9 +1,5 @@
 import { pvLog, pvDebug, pvWarn, pvError } from "./utils.js";
-import {
-  getNpcSelection,
-  setNpcSelection,
-  registerNpcSelectionSettings,
-} from "./npcSelection.js";
+import { registerNpcSelectionSettings } from "./npcSelection.js";
 import { buildPartySummaryContext } from "./viewModel.js";
 import {
   setupGlobalDnD,
@@ -15,6 +11,7 @@ import { registerModuleSettings } from "./settings.js";
 import { registerRefreshHooks } from "./refreshHooks.js";
 import { setupPartyTabs } from "./tabs.js";
 import { setupCardInteractions } from "./cardInteractions.js";
+import { addNpcToSelection, removeNpcFromSelection } from "./npcActions.js";
 
 pvDebug("Script evaluated");
 
@@ -71,22 +68,11 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
   }
 
   async _addNpc(actorId) {
-    const current = getNpcSelection();
-    if (!current.includes(actorId)) {
-      const updated = [...current, actorId];
-      pvDebug("Adding NPC", { actorId, count: updated.length });
-      await setNpcSelection(updated);
-      this._activeTab = "npcs";
-      this.render(true);
-    }
+    await addNpcToSelection(this, actorId);
   }
 
   async _removeNpc(actorId) {
-    const current = getNpcSelection();
-    const updated = current.filter((id) => id !== actorId);
-    pvDebug("Removing NPC", { actorId, count: updated.length });
-    await setNpcSelection(updated);
-    this.render(true);
+    await removeNpcFromSelection(this, actorId);
   }
 }
 
