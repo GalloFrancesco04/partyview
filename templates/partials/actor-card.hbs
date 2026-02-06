@@ -1,0 +1,93 @@
+<li class="party-card{{#if isNpc}} npc-card{{/if}}" data-actor-id="{{actor.id}}"{{#if draggable}} draggable="true" data-drag-source="partyview-pc"{{/if}}>
+  {{#if isNpc}}
+    <button type="button" class="remove-npc-btn" title="Remove NPC" aria-label="Remove NPC">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  {{/if}}
+  <div class="portrait-wrap">
+    <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" />
+    {{#if actor.coins}}
+      <div class="coins-row">
+        <span class="coin coin-pp" title="Platinum"></span>
+        <span class="coin-val">{{actor.coins.ppDisp}}</span>
+        <span class="coin coin-gp" title="Gold"></span>
+        <span class="coin-val">{{actor.coins.gpDisp}}</span>
+        <span class="coin coin-sp" title="Silver"></span>
+        <span class="coin-val">{{actor.coins.spDisp}}</span>
+        <span class="coin coin-cp" title="Copper"></span>
+        <span class="coin-val">{{actor.coins.cpDisp}}</span>
+      </div>
+    {{/if}}
+  </div>
+  <div class="info">
+    <header class="name">{{actor.name}}</header>
+    <div class="meta">
+      {{#if actor.hp}}
+        <span class="tag">
+          {{#if showIcons}}
+            <i class="fa-solid fa-heart icon-hp"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.HP"}}: {{{actor.hp}}}
+        </span>
+      {{/if}}
+
+      {{#if actor.ac}}
+        <span class="tag">
+          {{#if showIcons}}
+            <i class="fa-solid fa-shield-halved icon-ac"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.AC"}}: {{actor.ac}}
+        </span>
+      {{/if}}
+
+      {{#if actor.level}}
+        <span class="tag">
+          {{#if showIcons}}
+            <i class="fa-solid fa-star icon-level"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.Level"}}: {{actor.level}}
+        </span>
+      {{/if}}
+
+      {{#if actor.pp}}
+        <span class="tag">
+          {{#if showIcons}}
+            <i class="fa-solid fa-eye icon-pp"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.PP"}}: {{actor.pp}}
+        </span>
+      {{/if}}
+
+      {{#if actor.classes}}
+        <span class="tag">{{localize "PARTYVIEW.Classes"}}: {{actor.classes}}</span>
+      {{/if}}
+
+      {{#if actor.legendaryActions}}
+        <span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">
+          {{#if showIcons}}
+            <i class="fa-solid fa-dragon icon-legendary"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.LA"}}: {{actor.legendaryActions}}
+        </span>
+      {{/if}}
+
+      {{#if actor.legendaryResist}}
+        <span class="tag" title="{{localize 'PARTYVIEW.LegendaryResistances'}}">
+          {{#if showIcons}}
+            <i class="fa-solid fa-shield icon-legendary"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.LR"}}: {{actor.legendaryResist.value}}{{#if actor.legendaryResist.max}}/{{actor.legendaryResist.max}}{{/if}}
+        </span>
+      {{/if}}
+
+      {{#if actor.hasRegen}}
+        <span class="tag" title="{{localize 'PARTYVIEW.Regeneration'}}">
+          {{#if showIcons}}
+            <i class="fa-solid fa-plus icon-regen"></i>
+          {{/if}}
+          {{localize "PARTYVIEW.Regen"}}
+        </span>
+      {{/if}}
+    </div>
+  </div>
+</li>
