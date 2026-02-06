@@ -232,6 +232,29 @@
   box-sizing: border-box;
 }
 
+.npc-card {
+  position: relative;
+}
+
+.icon-hp {
+  color: #e66;
+}
+.icon-ac {
+  color: #6ae;
+}
+.icon-legendary {
+  color: #c6f;
+}
+.icon-regen {
+  color: #7f7;
+}
+.icon-level {
+  color: #fc3;
+}
+.icon-pp {
+  color: #7f7;
+}
+
 .portrait-wrap {
   display: flex;
   flex-direction: column;
