@@ -5,6 +5,7 @@ import {
   registerNpcSelectionSettings,
 } from "./npcSelection.js";
 import { buildPartySummaryContext } from "./viewModel.js";
+import { setupGlobalDnD, setupNpcDragDrop } from "./dragDrop.js";
 
 pvDebug("Script evaluated");
 
@@ -82,11 +83,10 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
       });
     });
 
-    // Set up drag and drop for NPC tab
     const npcTab = partySummary.querySelector('[data-tab="npcs"]');
     if (npcTab) {
       pvDebug("activateListeners: npcTab found, enabling DnD");
-      this._setupNpcDragDrop(npcTab);
+      setupNpcDragDrop(this, npcTab);
     } else {
       pvWarn("activateListeners: npcTab NOT found, DnD disabled");
     }
@@ -159,231 +159,6 @@ class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixi
     });
   }
 
-  _setupNpcDragDrop(npcTab) {
-    pvDebug("Setting up drag and drop for NPC tab");
-    // Capture-phase listeners to reliably receive events even when hovering children
-    npcTab.addEventListener(
-      "dragenter",
-      (ev) => {
-        pvDebug("DnD: dragenter on npcTab", { target: ev.target?.className });
-        npcTab.classList.add("drag-over");
-      },
-      true,
-    );
-
-    npcTab.addEventListener(
-      "dragover",
-      (ev) => {
-        pvDebug("DnD: dragover on npcTab");
-        ev.preventDefault();
-        try {
-          ev.dataTransfer.dropEffect = "copy";
-        } catch {}
-        npcTab.classList.add("drag-over");
-      },
-      true,
-    );
-
-    npcTab.addEventListener(
-      "dragleave",
-      () => {
-        pvDebug("DnD: dragleave on npcTab");
-        npcTab.classList.remove("drag-over");
-      },
-      true,
-    );
-
-    npcTab.addEventListener("drop", (ev) => {
-      pvDebug("DnD: drop start on npcTab");
-      ev.preventDefault();
-      npcTab.classList.remove("drag-over");
-      try {
-        const dt = ev.dataTransfer;
-        const types = Array.from(dt?.types ?? []);
-        const plain = dt?.getData("text/plain") || "";
-        const uris = dt?.getData("text/uri-list") || "";
-        const plainPreview = plain?.slice?.(0, 200) ?? "";
-        pvDebug("Drop event types", {
-          types,
-          plainLen: plain.length,
-          urisLen: uris.length,
-          plainPreview,
-        });
-
-        let payload = null;
-        if (plain) {
-          try {
-            payload = JSON.parse(plain);
-          } catch {
-            // Not JSON; may be a UUID string
-          }
-        }
-
-        const handleActor = (actorDoc) => {
-          if (!actorDoc) return false;
-          if (actorDoc.documentName === "TokenDocument")
-            actorDoc = actorDoc.actor;
-          if (actorDoc?.documentName === "Actor") {
-            if (actorDoc.type === "npc") {
-              this._activeTab = "npcs";
-              this._addNpc(actorDoc.id);
-              return true;
-            }
-            ui.notifications?.warn(
-              "Only NPC actors can be added to the NPC tab.",
-            );
-            return false;
-          }
-          return false;
-        };
-
-        // Case 1: JSON payload (typical directory/sheet drag)
-        if (payload && payload.type) {
-          pvDebug("Parsed JSON payload", payload);
-          if (payload.type === "Actor") {
-            let doc = null;
-            if (payload.uuid) doc = fromUuidSync(payload.uuid);
-            if (!doc && payload.id) doc = game.actors?.get(payload.id) ?? null;
-            if (!handleActor(doc))
-              pvWarn("Actor doc not resolved or not NPC", payload);
-            return;
-          }
-          if (payload.type === "Token") {
-            let doc = null;
-            if (payload.uuid) doc = fromUuidSync(payload.uuid);
-            if (!handleActor(doc))
-              pvWarn("Token doc not resolved or no actor", payload);
-            return;
-          }
-        }
-
-        // Case 2: UUID string in plain or uri-list
-        const uuidStr = [plain, uris].find((s) =>
-          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? ""),
-        );
-        if (uuidStr) {
-          pvDebug("UUID-like string dropped", uuidStr);
-          const doc = fromUuidSync(uuidStr.trim());
-          if (!handleActor(doc))
-            pvWarn("UUID did not resolve to an NPC Actor", uuidStr);
-          return;
-        }
-
-        // Unknown payload
-        pvWarn("Unrecognized drop payload", { types, plain, uris });
-        ui.notifications?.warn(
-          "Unable to read drop data. Please drag from the Actors directory or a UUID link.",
-        );
-      } catch (err) {
-        pvWarn("Failed to parse drop data", err);
-      }
-    });
-  }
-
-  _setupGlobalDnD(npcTab) {
-    // Avoid duplicating listeners
-    if (this._globalDnDActive) return;
-    this._globalDnDActive = true;
-    pvDebug("Setting up global DnD fallback");
-
-    const onDocDragOver = (ev) => {
-      const el = document.elementFromPoint(ev.clientX, ev.clientY);
-      const inside = !!el?.closest?.(".npc-drop-zone");
-      if (!inside) return;
-      pvDebug("Global DnD: dragover inside npc-drop-zone");
-      ev.preventDefault();
-    };
-
-    const onDocDrop = (ev) => {
-      const el = document.elementFromPoint(ev.clientX, ev.clientY);
-      const zone = el?.closest?.(".npc-drop-zone");
-      if (!zone) return;
-      pvDebug("Global DnD: drop inside npc-drop-zone");
-      ev.preventDefault();
-      // Reuse the npcTab drop handler by dispatching a synthetic event
-      // or parse here using the same logic
-      try {
-        const dt = ev.dataTransfer;
-        const types = Array.from(dt?.types ?? []);
-        const plain = dt?.getData("text/plain") || "";
-        const uris = dt?.getData("text/uri-list") || "";
-        const plainPreview = plain?.slice?.(0, 200) ?? "";
-        pvDebug("Global Drop event types", {
-          types,
-          plainLen: plain.length,
-          urisLen: uris.length,
-          plainPreview,
-        });
-
-        let payload = null;
-        if (plain) {
-          try {
-            payload = JSON.parse(plain);
-          } catch {}
-        }
-        const handleActor = (actorDoc) => {
-          if (!actorDoc) return false;
-          if (actorDoc.documentName === "TokenDocument")
-            actorDoc = actorDoc.actor;
-          if (actorDoc?.documentName === "Actor") {
-            if (actorDoc.type === "npc") {
-              this._activeTab = "npcs";
-              this._addNpc(actorDoc.id);
-              return true;
-            }
-            ui.notifications?.warn(
-              "Only NPC actors can be added to the NPC tab.",
-            );
-            return false;
-          }
-          return false;
-        };
-        if (payload && payload.type) {
-          pvDebug("Global: Parsed JSON payload", payload);
-          if (payload.type === "Actor") {
-            let doc = null;
-            if (payload.uuid) doc = fromUuidSync(payload.uuid);
-            if (!doc && payload.id) doc = game.actors?.get(payload.id) ?? null;
-            if (!handleActor(doc))
-              pvWarn("Global: Actor not resolved or not NPC", payload);
-            return;
-          }
-          if (payload.type === "Token") {
-            let doc = null;
-            if (payload.uuid) doc = fromUuidSync(payload.uuid);
-            if (!handleActor(doc))
-              pvWarn("Global: Token not resolved or no actor", payload);
-            return;
-          }
-        }
-        const uuidStr = [plain, uris].find((s) =>
-          /^(Actor\.|Token\.|Compendium\.)/.test(s?.trim?.() ?? ""),
-        );
-        if (uuidStr) {
-          pvDebug("Global: UUID-like string dropped", uuidStr);
-          const doc = fromUuidSync(uuidStr.trim());
-          if (!handleActor(doc))
-            pvWarn("Global: UUID did not resolve to NPC Actor", uuidStr);
-          return;
-        }
-        pvWarn("Global: Unrecognized drop payload", { types, plain, uris });
-      } catch (e) {
-        pvWarn("Global: Failed handling drop", e);
-      }
-    };
-
-    document.addEventListener("dragover", onDocDragOver, true);
-    document.addEventListener("drop", onDocDrop, true);
-
-    // Clean-up when application closes
-    this.once?.("close", () => {
-      document.removeEventListener("dragover", onDocDragOver, true);
-      document.removeEventListener("drop", onDocDrop, true);
-      this._globalDnDActive = false;
-      pvDebug("Global DnD fallback removed");
-    });
-  }
-
   async _addNpc(actorId) {
     const current = getNpcSelection();
     if (!current.includes(actorId)) {
@@ -415,9 +190,9 @@ Hooks.on("renderPartySummaryApp", (app, html) => {
       const npcTab = partySummary.querySelector('[data-tab="npcs"]');
       if (npcTab) {
         pvDebug("render hook: enabling DnD on npcTab");
-        app._setupNpcDragDrop(npcTab);
+        setupNpcDragDrop(app, npcTab);
         // Also set up a document-level fallback to capture drops by screen position
-        app._setupGlobalDnD(npcTab);
+        setupGlobalDnD(app);
       } else {
         pvWarn("render hook: npcTab not found");
       }
