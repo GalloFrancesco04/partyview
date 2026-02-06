@@ -1,11 +1,7 @@
-import { pvLog, pvDebug, pvWarn, pvError } from "./utils.js";
+import { pvLog, pvDebug, pvWarn } from "./utils.js";
 import { registerNpcSelectionSettings } from "./npcSelection.js";
 import { buildPartySummaryContext } from "./viewModel.js";
-import {
-  setupGlobalDnD,
-  setupNpcDragDrop,
-  setupPartyCardDrag,
-} from "./dragDrop.js";
+import { setupNpcDragDrop, setupPartyCardDrag } from "./dragDrop.js";
 import { registerUiHooks } from "./uiHooks.js";
 import { registerModuleSettings } from "./settings.js";
 import { registerRefreshHooks } from "./refreshHooks.js";
