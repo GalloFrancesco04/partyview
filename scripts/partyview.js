@@ -12,8 +12,9 @@ import { addNpcToSelection, removeNpcFromSelection } from "./npc/npcActions.js";
 pvDebug("Script evaluated");
 
 // Module settings
-Hooks.once("init", () => {
+Hooks.once("init", async () => {
   registerModuleSettings();
+  await loadTemplates(["modules/partyview/templates/partials/actor-card.hbs"]);
 });
 
 class PartySummaryApp extends foundry.applications.api.HandlebarsApplicationMixin(
