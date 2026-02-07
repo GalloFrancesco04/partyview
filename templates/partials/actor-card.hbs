@@ -66,6 +66,12 @@
         <span class="tag">{{localize "PARTYVIEW.Classes"}}: {{actor.classes}}</span>
       {{/if}}
 
+      {{#if actor.subclasses}}
+        <span class="tag-row">
+          <span class="tag tag-subclass">Subclass: {{actor.subclasses}}</span>
+        </span>
+      {{/if}}
+
       {{#if actor.legendaryActions}}
         <span class="tag" title="{{localize 'PARTYVIEW.LegendaryActions'}}">
           {{#if showIcons}}

@@ -287,6 +287,20 @@
   border: 1px solid var(--color-border-dark, #444);
 }
 
+.party-card .meta .tag-row {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.party-card .meta .tag-subclass {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--color-bg, #252525);
+  border-style: dashed;
+  opacity: 0.95;
+}
+
 /* Actors directory header button */
 .party-summary-btn {
   display: inline-flex;

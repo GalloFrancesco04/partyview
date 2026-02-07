@@ -81,6 +81,15 @@ export function buildPartySummaryContext({ activeTab } = {}) {
       const hasRegen = !!a.items?.some?.((it) =>
         /regeneration|regenerate/i.test(it?.name || ""),
       );
+      const formatClassEntry = (name, levelValue) => {
+        return `${name}${levelValue ? ` ${levelValue}` : ""}`.trim();
+      };
+
+      const subclasses = [];
+      const addSubclass = (subclassName) => {
+        if (subclassName) subclasses.push(subclassName);
+      };
+
       let classes = [];
       const classItems = a.items?.filter?.((it) => it.type === "class") ?? [];
       const clsObj = a.classes ?? undefined;
@@ -93,7 +102,14 @@ export function buildPartySummaryContext({ activeTab } = {}) {
               c?.system?.level ??
               c?.system?.levels?.value ??
               "";
-            return `${name}${lv ? ` ${lv}` : ""}`.trim();
+            const subclassName =
+              c?.system?.subclass?.name ??
+              c?.system?.subclass?.label ??
+              c?.subclass?.name ??
+              c?.subclass?.label ??
+              "";
+            addSubclass(subclassName);
+            return formatClassEntry(name, lv);
           })
           .filter(Boolean);
       } else if (classItems.length) {
@@ -105,7 +121,14 @@ export function buildPartySummaryContext({ activeTab } = {}) {
               c?.system?.level ??
               c?.system?.levels?.value ??
               "";
-            return `${name}${lv ? ` ${lv}` : ""}`.trim();
+            const subclassName =
+              c?.system?.subclass?.name ??
+              c?.system?.subclass?.label ??
+              c?.system?.subclass?.identifier ??
+              c?.system?.subclass?.slug ??
+              "";
+            addSubclass(subclassName);
+            return formatClassEntry(name, lv);
           })
           .filter(Boolean);
       }
@@ -143,6 +166,7 @@ export function buildPartySummaryContext({ activeTab } = {}) {
           return display;
         })(),
         classes: classes.join(" / "),
+        subclasses: subclasses.filter(Boolean).join(" / "),
         pp,
         coins,
         legendaryActions,
