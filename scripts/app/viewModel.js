@@ -114,6 +114,18 @@ export function buildPartySummaryContext({ activeTab } = {}) {
         id: a.id,
         name: a.name,
         img: a.img,
+        token: (() => {
+          // Try to get token from active scene first
+          const sceneToken = game.scenes?.active?.tokens?.find(
+            (t) => t.actor?.id === a.id,
+          );
+          if (sceneToken?.texture?.src) return sceneToken.texture.src;
+          // Fall back to prototype token
+          if (a.prototypeToken?.texture?.src)
+            return a.prototypeToken.texture.src;
+          // Final fallback to actor image
+          return a.img;
+        })(),
         level,
         ac,
         hp: (() => {
@@ -162,6 +174,17 @@ export function buildPartySummaryContext({ activeTab } = {}) {
       id: a.id,
       name: a.name,
       img: a.img,
+      token: (() => {
+        // Try to get token from active scene first
+        const sceneToken = game.scenes?.active?.tokens?.find(
+          (t) => t.actor?.id === a.id,
+        );
+        if (sceneToken?.texture?.src) return sceneToken.texture.src;
+        // Fall back to prototype token
+        if (a.prototypeToken?.texture?.src) return a.prototypeToken.texture.src;
+        // Final fallback to actor image
+        return a.img;
+      })(),
       level,
       ac,
       hp:
@@ -211,6 +234,9 @@ export function buildPartySummaryContext({ activeTab } = {}) {
   const showIcons = game.settings?.get("partyview", "showIcons") ?? true;
   const allowPlayersView =
     game.settings?.get("partyview", "allowPlayersView") ?? false;
+  const portraitSource =
+    game.settings?.get("partyview", "portraitSource") ?? "image";
+  const useTokenImage = portraitSource === "token";
   const isGM = game.user?.isGM ?? false;
   const canViewSummary = isGM || allowPlayersView;
   const resolvedTab = activeTab || "players";
@@ -219,6 +245,7 @@ export function buildPartySummaryContext({ activeTab } = {}) {
     actors: rows.length,
     npcs: npcs.length,
     showIcons,
+    portraitSource,
     isGM,
     allowPlayersView,
     canViewSummary,
@@ -228,6 +255,7 @@ export function buildPartySummaryContext({ activeTab } = {}) {
   return {
     actors: rows,
     showIcons,
+    useTokenImage,
     isGM,
     allowPlayersView,
     canViewSummary,

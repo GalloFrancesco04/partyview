@@ -11,7 +11,7 @@
       {{#if actors.length}}
         <ul class="party-grid">
           {{#each actors}}
-            {{> "modules/partyview/templates/partials/actor-card.hbs" actor=this showIcons=../showIcons draggable=true}}
+            {{> "modules/partyview/templates/partials/actor-card.hbs" actor=this showIcons=../showIcons useTokenImage=../useTokenImage draggable=true}}
           {{/each}}
         </ul>
       {{else}}
@@ -30,7 +30,7 @@
       {{#if npcs.length}}
         <ul class="party-grid">
           {{#each npcs}}
-            {{> "modules/partyview/templates/partials/actor-card.hbs" actor=this showIcons=../showIcons isNpc=true}}
+            {{> "modules/partyview/templates/partials/actor-card.hbs" actor=this showIcons=../showIcons useTokenImage=../useTokenImage isNpc=true}}
           {{/each}}
         </ul>
       {{else}}

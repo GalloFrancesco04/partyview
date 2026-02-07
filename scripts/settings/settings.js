@@ -23,4 +23,16 @@ export function registerModuleSettings() {
     type: Boolean,
     default: false,
   });
+  game.settings.register("partyview", "portraitSource", {
+    name: "Portrait Source",
+    hint: "Choose whether to display actor character portrait or token image in party cards.",
+    scope: "client",
+    config: true,
+    type: String,
+    choices: {
+      image: "Actor Portrait",
+      token: "Token Image",
+    },
+    default: "image",
+  });
 }

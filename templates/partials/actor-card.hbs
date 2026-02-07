@@ -5,7 +5,11 @@
     </button>
   {{/if}}
   <div class="portrait-wrap">
-    <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" />
+    {{#if useTokenImage}}
+      <img class="portrait" src="{{actor.token}}" alt="{{actor.name}}" />
+    {{else}}
+      <img class="portrait" src="{{actor.img}}" alt="{{actor.name}}" />
+    {{/if}}
     {{#if actor.coins}}
       <div class="coins-row">
         <span class="coin coin-pp" title="Platinum"></span>

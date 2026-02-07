@@ -17,5 +17,9 @@
   "PARTYVIEW.Regeneration": "Regeneration",
   "PARTYVIEW.LA": "LA",
   "PARTYVIEW.LR": "LR",
-  "PARTYVIEW.Regen": "Regen"
+  "PARTYVIEW.Regen": "Regen",
+  "PARTYVIEW.PortraitSource": "Portrait Source",
+  "PARTYVIEW.PortraitSourceHint": "Choose whether to display actor character portrait or token image in party cards.",
+  "PARTYVIEW.PortraitSourceImage": "Actor Portrait",
+  "PARTYVIEW.PortraitSourceToken": "Token Image"
 }

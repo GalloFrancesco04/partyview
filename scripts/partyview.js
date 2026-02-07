@@ -14,6 +14,9 @@ pvDebug("Script evaluated");
 // Module settings
 Hooks.once("init", async () => {
   registerModuleSettings();
+});
+
+Hooks.once("setup", async () => {
   await loadTemplates(["modules/partyview/templates/partials/actor-card.hbs"]);
 });
 
