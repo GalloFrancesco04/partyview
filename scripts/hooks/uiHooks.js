@@ -1,8 +1,20 @@
 import { pvDebug, pvWarn, pvError } from "../core/utils.js";
 import { setupGlobalDnD, setupNpcDragDrop } from "../dragdrop/dragDrop.js";
 
+function setActivePartySummaryApp(app) {
+  globalThis.__partyview = globalThis.__partyview ?? {};
+  globalThis.__partyview.partySummaryApp = app;
+}
+
+function clearActivePartySummaryApp(app) {
+  if (globalThis.__partyview?.partySummaryApp === app) {
+    delete globalThis.__partyview.partySummaryApp;
+  }
+}
+
 export function registerUiHooks(PartySummaryApp) {
   Hooks.on("renderPartySummaryApp", (app, html) => {
+    setActivePartySummaryApp(app);
     const partySummary =
       html[0]?.querySelector?.(".party-summary") ||
       html.querySelector?.(".party-summary");
@@ -139,7 +151,11 @@ export function registerUiHooks(PartySummaryApp) {
       const label =
         globalThis.game?.i18n?.localize("PARTYVIEW.Title") || "Party Summary";
       btn.innerHTML = `<i class="fa-solid fa-users"></i> ${label}`;
-      btn.addEventListener("click", () => new PartySummaryApp().render(true));
+      btn.addEventListener("click", () => {
+        const partyApp = new PartySummaryApp();
+        setActivePartySummaryApp(partyApp);
+        partyApp.render(true);
+      });
 
       const actions = container.querySelector(
         "a.header-control, .header-actions",
@@ -152,5 +168,9 @@ export function registerUiHooks(PartySummaryApp) {
     } catch (err) {
       pvError("failed to inject button", err);
     }
+  });
+
+  Hooks.on("closePartySummaryApp", (app) => {
+    clearActivePartySummaryApp(app);
   });
 }
